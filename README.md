@@ -1,24 +1,79 @@
-# LocalSend - Aplikasi Berbagi File Jaringan Lokal
+<div align="center">
 
-[![Go Version](https://img.shields.io/badge/Go-1.21+-blue.svg)](https://golang.org/)
+# 🚀 LocalSend - Aplikasi Berbagi File Jaringan Lokal
+
+[![Go Version](https://img.shields.io/badge/Go-1.21+-00ADD8.svg?logo=go)](https://golang.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)]()
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)]()
 
-LocalSend adalah aplikasi berbagi file peer-to-peer yang dirancang khusus untuk jaringan area lokal (LAN). Aplikasi ini memungkinkan transfer file yang cepat dan aman antar perangkat dalam satu jaringan tanpa memerlukan koneksi internet atau server pusat.
+**Aplikasi berbagi file peer-to-peer yang cepat, aman, dan mudah untuk jaringan lokal**
+
+*Transfer file tanpa internet • Zero configuration • Cross-platform • Open Source*
+
+[📖 Dokumentasi](#-daftar-isi) • [🚀 Quick Start](#-quick-start) • [💻 Demo](#-demo-aplikasi) • [🤝 Kontribusi](#-kontribusi)
+
+---
+
+</div>
+
+## 💻 Demo Aplikasi
+
+<div align="center">
+
+![LocalSend Interface](docs/Capture.PNG)
+
+*Interface LocalSend yang modern dan intuitif dengan fitur drag & drop*
+
+</div>
+
+---
 
 ## 📋 Daftar Isi
 
-- [Fitur Utama](#-fitur-utama)
-- [Persyaratan Sistem](#-persyaratan-sistem)
-- [Instalasi dan Penggunaan](#-instalasi-dan-penggunaan)
-- [Arsitektur Aplikasi](#-arsitektur-aplikasi)
-- [Dokumentasi API](#-dokumentasi-api)
-- [Konfigurasi](#-konfigurasi)
-- [Keamanan](#-keamanan)
-- [Troubleshooting](#-troubleshooting)
-- [Pengembangan](#-pengembangan)
-- [Kontribusi](#-kontribusi)
-- [Lisensi](#-lisensi)
+- [💻 Demo Aplikasi](#-demo-aplikasi)
+- [✨ Fitur Utama](#-fitur-utama)
+- [🚀 Quick Start](#-quick-start)
+- [📦 Instalasi](#-instalasi)
+  - [Menggunakan Makefile](#menggunakan-makefile-rekomendasi)
+  - [Manual Installation](#manual-installation)
+  - [Cross-Platform Build](#cross-platform-build)
+- [📖 Cara Penggunaan](#-cara-penggunaan)
+- [🔧 Persyaratan Sistem](#-persyaratan-sistem)
+- [🏗️ Arsitektur Aplikasi](#️-arsitektur-aplikasi)
+- [📡 Dokumentasi API](#-dokumentasi-api)
+- [⚙️ Konfigurasi](#️-konfigurasi)
+- [🔒 Keamanan](#-keamanan)
+- [🔧 Troubleshooting](#-troubleshooting)
+- [🛠️ Pengembangan](#️-pengembangan)
+- [🤝 Kontribusi](#-kontribusi)
+- [📄 Lisensi](#-lisensi)
+
+---
+
+## 🚀 Quick Start
+
+Jalankan aplikasi dalam 3 langkah sederhana:
+
+```bash
+# 1. Clone repository
+git clone <repository-url>
+cd GO-SEND-FILE-LOCAL-NETWORK
+
+# 2. Jalankan aplikasi (otomatis menggunakan Go)
+make run
+
+# 3. Buka browser di http://localhost:8080
+```
+
+**Atau build dan jalankan:**
+
+```bash
+make build    # Build executable
+make start    # Jalankan executable
+```
+
+**Selesai!** Aplikasi siap digunakan untuk transfer file di jaringan lokal Anda. 🎉
 
 ## ✨ Fitur Utama
 
@@ -51,44 +106,92 @@ LocalSend adalah aplikasi berbagi file peer-to-peer yang dirancang khusus untuk 
 - Material design inspired UI
 - Embedded frontend tanpa dependensi eksternal
 
-## 🔧 Persyaratan Sistem
+---
 
-### Minimum Requirements
-- **Go**: Version 1.21 atau lebih baru
-- **RAM**: 64 MB
-- **Storage**: 10 MB ruang kosong
-- **Network**: Koneksi ke jaringan lokal (WiFi/Ethernet)
+## 📦 Instalasi
 
-### Supported Operating Systems
-- Windows 10/11 (x64)
-- macOS 10.15+ (Catalina atau lebih baru)
-- Linux distributions dengan kernel 3.2+
+### Menggunakan Makefile (Rekomendasi)
 
-### Network Requirements
-- Semua perangkat harus berada dalam subnet yang sama
-- Port 8080 (HTTP) dan 8888 (UDP) harus tersedia
-- Firewall harus mengizinkan komunikasi pada port tersebut
+Proyek ini dilengkapi dengan Makefile untuk memudahkan proses build dan deployment. Makefile akan otomatis mendeteksi sistem operasi Anda (Windows/Linux/macOS) dan melakukan build yang sesuai.
 
-## 🚀 Instalasi dan Penggunaan
+#### Perintah Makefile
 
-### Metode 1: Menjalankan dari Source Code
+| Perintah | Deskripsi | Contoh Penggunaan |
+|----------|-----------|-------------------|
+| `make help` | Menampilkan daftar perintah yang tersedia | `make help` |
+| `make run` | Menjalankan aplikasi secara native (development) | `make run` |
+| `make build` | Build executable optimized untuk produksi | `make build` |
+| `make start` | Menjalankan executable yang sudah di-build | `make start` |
+| `make clean` | Membersihkan direktori build | `make clean` |
+
+#### Quick Start dengan Makefile
 
 ```bash
 # 1. Clone repository
 git clone <repository-url>
-cd "sendfile local network"
+cd GO-SEND-FILE-LOCAL-NETWORK
 
-# 2. Verifikasi Go installation
+# 2. Lihat perintah yang tersedia
+make help
+
+# 3. Development mode (langsung run tanpa build)
+make run
+
+# 4. Build production (optimized binary)
+make build
+
+# 5. Jalankan production binary
+make start
+
+# 6. Bersihkan build files
+make clean
+```
+
+#### Detail Build Process
+
+Makefile menggunakan flag optimisasi berikut:
+- `-ldflags="-s -w"`: Strip debug information dan symbol table (ukuran binary ~40% lebih kecil)
+- `-trimpath`: Menghilangkan file system path dari binary
+- Auto-detection OS dan ARCH
+- Output ke direktori `build/` dengan nama sesuai platform:
+  - **Linux**: `build/localsend`
+  - **Windows**: `build/localsend.exe`
+  - **macOS**: `build/localsend`
+
+#### Contoh Output Build
+
+```bash
+$ make build
+Building for linux...
+Build complete: build/localsend
+
+$ ls -lh build/
+total 6.2M
+-rwxr-xr-x 1 user user 6.2M Dec 10 03:37 localsend
+```
+
+### Manual Installation
+
+Jika Anda tidak ingin menggunakan Makefile, berikut adalah cara manual:
+
+#### 1. Menjalankan dari Source Code
+
+```bash
+# Clone repository
+git clone <repository-url>
+cd GO-SEND-FILE-LOCAL-NETWORK
+
+# Verifikasi Go installation
 go version
 
-# 3. Download dependencies
+# Download dependencies
 go mod tidy
 
-# 4. Jalankan aplikasi
+# Jalankan aplikasi
 go run main.go
 ```
 
-### Metode 2: Build Executable
+#### 2. Build Executable Manual
 
 ```bash
 # Build untuk sistem operasi saat ini
@@ -98,7 +201,7 @@ go build -ldflags "-s -w" -o localsend main.go
 ./localsend
 ```
 
-### Metode 3: Cross-Platform Build
+### Cross-Platform Build
 
 ```bash
 # Windows (64-bit)
@@ -114,13 +217,27 @@ GOOS=darwin GOARCH=arm64 go build -ldflags "-s -w" -o localsend-mac-arm main.go
 GOOS=linux GOARCH=amd64 go build -ldflags "-s -w" -o localsend-linux main.go
 ```
 
-### Penggunaan Aplikasi
+---
 
-#### 1. **Memulai Aplikasi**
+## 📖 Cara Penggunaan
+
+### 1. Memulai Aplikasi
+
+#### Menggunakan Makefile (Rekomendasi)
 ```bash
-./localsend
+make run    # Development mode
+# atau
+make start  # Production mode (setelah make build)
 ```
-Output yang diharapkan:
+
+#### Manual
+```bash
+./localsend  # Linux/macOS
+# atau
+localsend.exe  # Windows
+```
+
+#### Output yang Diharapkan
 ```
 Starting LocalSend application...
 HTTP Server: http://localhost:8080
@@ -133,37 +250,120 @@ Open your browser and go to: http://localhost:8080
 Press Ctrl+C to stop the application
 ```
 
-#### 2. **Mengakses Web Interface**
-- Buka browser web
-- Navigasi ke `http://localhost:8080`
-- Interface akan menampilkan dashboard utama
+### 2. Mengakses Web Interface
 
-#### 3. **Mengirim File**
-1. **Penemuan Perangkat**:
-   - Klik tombol "Cari Perangkat"
-   - Tunggu hingga daftar perangkat muncul (3-5 detik)
-   - Perangkat yang ditemukan akan ditampilkan dengan nama dan IP
+1. Buka browser web (Chrome, Firefox, Safari, Edge, dll)
+2. Navigasi ke: **`http://localhost:8080`**
+3. Interface web akan menampilkan dashboard utama
 
-2. **Pemilihan File**:
-   - Klik area "Pilih File" atau gunakan drag & drop
-   - Pilih satu atau multiple file
-   - File yang dipilih akan ditampilkan dalam daftar
+### 3. Workflow Transfer File
 
-3. **Transfer File**:
-   - Pilih perangkat tujuan dari daftar
-   - Klik tombol "Kirim File"
-   - Monitor progress transfer
+#### Step 1: Penemuan Perangkat 🔍
+1. Klik tombol **"Cari Perangkat"**
+2. Tunggu 3-5 detik untuk proses discovery
+3. Perangkat yang ditemukan akan ditampilkan dengan:
+   - 📱 Nama perangkat (hostname)
+   - 🌐 Alamat IP lokal
+   - 🔌 Port komunikasi
 
-#### 4. **Menerima File**
-File yang diterima akan otomatis disimpan di:
-- **Windows**: `%USERPROFILE%\Downloads\LocalSend\`
-- **macOS**: `~/Downloads/LocalSend/`
-- **Linux**: `~/Downloads/LocalSend/`
+#### Step 2: Pemilihan File 📁
+Pilih file dengan salah satu cara:
+- **Klik** area "Pilih File"
+- **Drag & Drop** file langsung ke area upload
+- Mendukung **multiple files** sekaligus
 
-## 🏗️ Arsitektur Aplikasi
+File yang dipilih akan ditampilkan dalam daftar dengan informasi:
+- ✅ Nama file
+- 📊 Ukuran file
+
+#### Step 3: Transfer File 📤
+1. **Pilih** perangkat tujuan dari daftar
+2. Klik tombol **"Kirim File"**
+3. Monitor status transfer:
+   - ⏳ Uploading...
+   - ✅ Transfer berhasil
+   - ❌ Transfer gagal (dengan pesan error)
+
+### 4. Lokasi File yang Diterima
+
+File yang diterima otomatis disimpan di:
+
+| Platform | Lokasi Default |
+|----------|----------------|
+| **Windows** | `C:\Users\<username>\Downloads\LocalSend\` |
+| **macOS** | `~/Downloads/LocalSend/` |
+| **Linux** | `~/Downloads/LocalSend/` |
+
+> 💡 **Tip**: Direktori akan dibuat otomatis jika belum ada. Jika nama file sudah ada, akan ditambahkan suffix `_1`, `_2`, dst.
+
+---
+
+## 🔧 Persyaratan Sistem
+
+### Minimum Requirements
+
+| Komponen | Spesifikasi |
+|----------|------------|
+| **Go** | Version 1.21+ |
+| **RAM** | 64 MB |
+| **Storage** | 10 MB ruang kosong |
+| **Network** | Koneksi ke jaringan lokal (WiFi/Ethernet) |
+
+### Supported Operating Systems
+
+| OS | Version | Architecture |
+|----|---------|--------------|
+| **Windows** | 10/11 | x64 |
+| **macOS** | 10.15+ (Catalina atau lebih baru) | Intel & Apple Silicon (M1/M2) |
+| **Linux** | Kernel 3.2+ | x64 |
+
+### Network Requirements
+
+✅ **Diperlukan:**
+- Semua perangkat harus berada dalam subnet yang sama
+- Port 8080 (HTTP) harus tersedia
+- Port 8888 (UDP) harus tersedia
+- Firewall harus mengizinkan komunikasi pada kedua port tersebut
+
+⚙️ **Konfigurasi Firewall:**
+
+**Linux (UFW):**
+```bash
+sudo ufw allow 8080/tcp
+sudo ufw allow 8888/udp
+```
+
+**Linux (iptables):**
+```bash
+sudo iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
+sudo iptables -A INPUT -p udp --dport 8888 -j ACCEPT
+```
+
+**Windows Firewall:**
+```powershell
+netsh advfirewall firewall add rule name="LocalSend HTTP" dir=in action=allow protocol=TCP localport=8080
+netsh advfirewall firewall add rule name="LocalSend UDP" dir=in action=allow protocol=UDP localport=8888
+```
+
+**macOS:**
+```bash
+# Firewall biasanya tidak memblokir aplikasi lokal
+# Jika ada masalah, periksa System Preferences > Security & Privacy > Firewall
+```
+
+---
+
+## 🏗 Arsitektur Aplikasi
 
 ### Gambaran Umum
+
 LocalSend menggunakan arsitektur hibrida yang menggabungkan protokol UDP untuk device discovery dan HTTP untuk transfer file.
+
+**Teknologi:**
+- **Backend**: Go 1.21+ (pure standard library, zero dependencies)
+- **Frontend**: HTML5 + CSS3 + Vanilla JavaScript
+- **Protocol**: UDP (discovery) + HTTP (file transfer)
+- **Architecture**: Peer-to-peer with embedded web server
 
 ```
 ┌─────────────────┐    UDP Broadcast    ┌─────────────────┐
@@ -280,9 +480,13 @@ localsend/
 [Success response sent back]
 ```
 
+---
+
 ## 📡 Dokumentasi API
 
-### REST Endpoints
+### REST API Endpoints
+
+Berikut adalah daftar lengkap endpoint yang tersedia:
 
 #### `GET /`
 **Deskripsi**: Menampilkan web interface utama
@@ -400,9 +604,12 @@ localsend/
 }
 ```
 
+---
+
 ## ⚙️ Konfigurasi
 
 ### Konfigurasi Default
+
 Aplikasi menggunakan konfigurasi default yang dapat ditemukan di `internal/config/config.go`:
 
 ```go
@@ -449,9 +656,11 @@ export LOCALSEND_DEVICE_NAME="Custom-Device"
 export LOCALSEND_DOWNLOAD_DIR="/custom/path"
 ```
 
+---
+
 ## 🔒 Keamanan
 
-### ⚠️ Peringatan Keamanan
+### ⚠️ Peringatan Keamanan Penting
 
 **PENTING**: LocalSend dirancang khusus untuk jaringan lokal yang terpercaya. Aplikasi ini **TIDAK** menyediakan:
 
@@ -501,9 +710,13 @@ Pengembangan selanjutnya akan mencakup:
 - Access control lists
 - Audit logging
 
+---
+
 ## 🔧 Troubleshooting
 
 ### Masalah Umum dan Solusi
+
+> 💡 **Tips**: Jika mengalami masalah, jalankan `make help` untuk melihat semua perintah yang tersedia.
 
 #### 1. **Perangkat Tidak Ditemukan**
 
@@ -615,7 +828,9 @@ grep -i error localsend.log
 grep -i "failed" localsend.log
 ```
 
-## 🛠️ Pengembangan
+---
+
+## 🛠 Pengembangan
 
 ### Setup Development Environment
 
@@ -630,11 +845,22 @@ cd "sendfile local network"
 # 3. Install dependencies
 go mod tidy
 
-# 4. Run tests
+# 4. Run tests (if available)
 go test ./...
 
-# 5. Run with hot reload (install air)
+# 5. Jalankan dengan Makefile
+make run    # Development mode
+make build  # Build production
+make start  # Run production build
+```
+
+### Development dengan Hot Reload (Optional)
+
+```bash
+# Install Air untuk hot reload
 go install github.com/cosmtrek/air@latest
+
+# Run dengan hot reload
 air
 ```
 
@@ -708,10 +934,14 @@ type Config struct {
 #### 3. **Frontend Enhancement**
 ```javascript
 // internal/server/frontend.go
-// Add new JavaScript functionality
+// Add new JavaScript functionality in the indexHTML constant
 ```
 
+---
+
 ## 🤝 Kontribusi
+
+Kontribusi sangat diterima! Kami senang menerima pull request, bug reports, dan feature requests.
 
 ### Cara Berkontribusi
 
@@ -783,9 +1013,14 @@ Saat melaporkan bug, sertakan:
 - [ ] Bandwidth throttling
 - [ ] Plugin system
 
+---
+
 ## 📄 Lisensi
 
-Project ini menggunakan [MIT License](LICENSE).
+Project ini menggunakan **MIT License** - Anda bebas untuk menggunakan, memodifikasi, dan mendistribusikan aplikasi ini.
+
+<details>
+<summary>Lihat Lisensi Lengkap</summary>
 
 ```
 MIT License
@@ -811,20 +1046,43 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+</details>
+
 ---
 
-## 📞 Dukungan
+## 📞 Dukungan dan Kontak
 
-### Community Support
-- **GitHub Issues**: [Report bugs dan feature requests](https://github.com/username/localsend/issues)
-- **Discussions**: [Community discussions](https://github.com/username/localsend/discussions)
-- **Wiki**: [Additional documentation](https://github.com/username/localsend/wiki)
+### 💬 Community Support
 
-### Professional Support
+| Platform | Link | Deskripsi |
+|----------|------|-----------|
+| **GitHub Issues** | [Report Issues](https://github.com/username/localsend/issues) | Bug reports dan feature requests |
+| **Discussions** | [Join Discussion](https://github.com/username/localsend/discussions) | Community Q&A |
+| **Wiki** | [Documentation](https://github.com/username/localsend/wiki) | Additional guides |
+
+### 🚀 Quick Links
+
+- 📖 [Documentation](https://github.com/username/localsend/wiki)
+- 🐛 [Report Bug](https://github.com/username/localsend/issues/new?template=bug_report.md)
+- 💡 [Request Feature](https://github.com/username/localsend/issues/new?template=feature_request.md)
+- 🤝 [Contributing Guide](#-kontribusi)
+
+### 💼 Professional Support
+
 Untuk dukungan enterprise atau kustomisasi khusus, hubungi tim development.
 
 ---
 
+<div align="center">
+
+### ⭐ Jika proyek ini bermanfaat, berikan bintang di GitHub!
+
 **Dibuat dengan ❤️ menggunakan Go dan teknologi web modern**
 
 *LocalSend - Sharing made simple, secure, and fast.*
+
+---
+
+**[⬆ Kembali ke Atas](#-localsend---aplikasi-berbagi-file-jaringan-lokal)**
+
+</div>
